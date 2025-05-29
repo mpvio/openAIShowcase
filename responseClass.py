@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 
+from requests import Response
+
 class Message(BaseModel):
     role: str
     content: str
@@ -9,7 +11,7 @@ class Message(BaseModel):
 
 class Choice(BaseModel):
     logprobs: Optional[Dict[str, Any]] = None
-    finish_reason: str = Field(alias="finish_reason")  # Handles snake_case in JSON
+    finish_reason: str
     native_finish_reason: str
     index: int
     message: Message
@@ -29,7 +31,7 @@ class ResponseClass(BaseModel):
     usage: Usage
 
     @classmethod
-    def from_response(cls, response):
+    def from_response(cls, response: Response):
         """Parse a requests.Response directly into a Pydantic model."""
         return cls.model_validate(response.json())
 

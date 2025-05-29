@@ -39,10 +39,15 @@ def main():
 
     # accessing fields
     print(respObj.id)
-    print(respObj.choices[0].message.content)
+    choices = respObj.choices
+    if choices:
+        message = choices[0].message.content
+        print(message)
+        reasoning = choices[0].message.reasoning
+        if reasoning: print(reasoning)
 
     # convert back to json to print
-    print(respObj.to_json())
+    # print(respObj.to_json())
 
 
 
